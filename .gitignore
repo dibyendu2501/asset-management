@@ -1,0 +1,28 @@
+# Node.js dependencies
+node_modules/
+
+# Production build
+dist/
+build/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+/coverage
+
+# TypeScript build artifacts
+*.tsbuildinfo
+
+# Editor-specific files
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# ESLint / Prettier cache
+eslintcache
+.prettier

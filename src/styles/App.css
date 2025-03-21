@@ -1,0 +1,46 @@
+body {
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Magenta accent for MUI components */
+.MuiButton-root, .MuiSelect-root, .MuiCheckbox-root, .MuiRadio-root {
+  color: #d81b60 !important;
+}
+
+.MuiButton-contained {
+  background-color: #d81b60 !important;
+  color: white !important;
+}
+
+.MuiButton-contained:hover {
+  background-color: #b71550 !important;
+}
+
+.MuiOutlinedInput-root {
+  border-color: #d81b60 !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #d81b60 !important;
+}
+
+.MuiCheckbox-root.Mui-checked {
+  color: #d81b60 !important;
+}
+
+.MuiRadio-root.Mui-checked {
+  color: #d81b60 !important;
+}
