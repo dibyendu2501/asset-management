@@ -6,19 +6,31 @@ import {
   InputLabel,
   Select,
   Button,
-  Grid,
   Card,
+  SelectChangeEvent,
   CardContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Box,
 } from "@mui/material";
 
 interface Asset {
-  id: string;
+  assetNumber: number;
   assetType: string;
   assetName: string;
   purchaseDate: string;
-  availableToTransfer: boolean;
+  purchasePrice: number;
   initialDepartment: string;
   currentDepartment: string;
+  currentValuation: number;
+  lastEvaluated: Date;
+  location: string;
+  availableToTransfer: boolean;
 }
 
 const AssetTransfer: React.FC = () => {
@@ -32,106 +44,192 @@ const AssetTransfer: React.FC = () => {
   });
 
   useEffect(() => {
-    fetch("../data/assets.json")
+    fetch("/data/assets.json")
       .then((response) => response.json())
-      .then((data: Asset[]) => setAssets(data));
+      .then((data: Asset[]) => {
+        console.log(data);
+        setAssets(data);
+      });
   }, []);
 
   useEffect(() => {
     let filtered = assets.filter((asset) => asset.availableToTransfer);
     if (filters.assetType) {
-      filtered = filtered.filter((asset) => asset.assetType === filters.assetType);
+      filtered = filtered.filter(
+        (asset) => asset.assetType === filters.assetType
+      );
     }
     if (filters.assetName) {
-      filtered = filtered.filter((asset) => asset.assetName.includes(filters.assetName));
+      filtered = filtered.filter((asset) =>
+        asset.assetName.includes(filters.assetName)
+      );
     }
     if (filters.purchaseDateBefore) {
-      filtered = filtered.filter((asset) => new Date(asset.purchaseDate) < new Date(filters.purchaseDateBefore));
+      filtered = filtered.filter(
+        (asset) =>
+          new Date(asset.purchaseDate) < new Date(filters.purchaseDateBefore)
+      );
     }
     if (filters.purchaseDateAfter) {
-      filtered = filtered.filter((asset) => new Date(asset.purchaseDate) > new Date(filters.purchaseDateAfter));
+      filtered = filtered.filter(
+        (asset) =>
+          new Date(asset.purchaseDate) > new Date(filters.purchaseDateAfter)
+      );
     }
     setFilteredAssets(filtered);
   }, [filters, assets]);
 
-  const handleFilterChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+  const handleFilterChange = (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
     const { name, value } = event.target;
-    setFilters({ ...filters, [name as string]: value });
+    setFilters({ ...filters, [name as string]: value as string });
   };
 
   return (
-    <Card>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <Card>
       <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
-              <InputLabel>Asset Type</InputLabel>
-              <Select name="assetType" value={filters.assetType} onChange={handleFilterChange}>
-                <MenuItem value="">All</MenuItem>
-                {[...new Set(assets.map((asset) => asset.assetType))].map((type) => (
-                  <MenuItem key={type} value={type}>
-                    {type}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <FormControl>
+          <InputLabel>Requesting Location</InputLabel>
+          <Select
+          name="location"
+          onChange={(event: SelectChangeEvent<string>) => {
+            console.log("Selected Department:", event.target.value);
+          }}
+          >
+          <MenuItem value="">Select Location</MenuItem>
+          <MenuItem value="Pune">Pune</MenuItem>
+          <MenuItem value="Bangalore">Bangalore</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel>Requesting Department</InputLabel>
+          <Select
+          name="currentDepartment"
+          onChange={(event: SelectChangeEvent<string>) => {
+            console.log("Selected Department:", event.target.value);
+          }}
+          >
+          <MenuItem value="">Select Department</MenuItem>
+          <MenuItem value="HR">HR</MenuItem>
+          <MenuItem value="IT">IT</MenuItem>
+          <MenuItem value="Finance">Finance</MenuItem>
+          <MenuItem value="Travel">Travel</MenuItem>
+          <MenuItem value="Operations">Operations</MenuItem>
+          <MenuItem value="Marketing">Marketing</MenuItem>
+          <MenuItem value="Sales">Sales</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel>Asset Type</InputLabel>
+          <Select
+          name="assetType"
+          value={filters.assetType}
+          onChange={(event: SelectChangeEvent<string>) =>
+            setFilters({ ...filters, assetType: event.target.value })
+          }
+          >
+          <MenuItem value="">All</MenuItem>
+          {[...new Set(assets.map((asset) => asset.assetType))].map(
+            (type) => (
+            <MenuItem key={type} value={type}>
+              {type}
+            </MenuItem>
+            )
+          )}
+          </Select>
+        </FormControl>
 
-          <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              label="Asset Name"
-              name="assetName"
-              value={filters.assetName}
-              onChange={handleFilterChange}
-            />
-          </Grid>
+        <TextField
+          fullWidth
+          label="Asset Name"
+          name="assetName"
+          value={filters.assetName}
+          onChange={handleFilterChange}
+        />
 
-          <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              type="date"
-              label="Purchased Before"
-              name="purchaseDateBefore"
-              InputLabelProps={{ shrink: true }}
-              value={filters.purchaseDateBefore}
-              onChange={handleFilterChange}
-            />
-          </Grid>
+        <TextField
+          fullWidth
+          type="date"
+          label="Purchased Before"
+          name="purchaseDateBefore"
+          InputLabelProps={{ shrink: true }}
+          value={filters.purchaseDateBefore}
+          onChange={handleFilterChange}
+        />
 
-          <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              type="date"
-              label="Purchased After"
-              name="purchaseDateAfter"
-              InputLabelProps={{ shrink: true }}
-              value={filters.purchaseDateAfter}
-              onChange={handleFilterChange}
-            />
-          </Grid>
+        <TextField
+          fullWidth
+          type="date"
+          label="Purchased After"
+          name="purchaseDateAfter"
+          InputLabelProps={{ shrink: true }}
+          value={filters.purchaseDateAfter}
+          onChange={handleFilterChange}
+        />
 
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={() => setFilters({
-              assetType: "",
-              assetName: "",
-              purchaseDateBefore: "",
-              purchaseDateAfter: "",
-            })}>
-              Reset Filters
-            </Button>
-          </Grid>
-
-          <Grid item xs={12}>
-            <ul>
-              {filteredAssets.map((asset) => (
-                <li key={asset.id}>{`${asset.assetName} (${asset.assetType}) - ${asset.currentDepartment}`}</li>
-              ))}
-            </ul>
-          </Grid>
-        </Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() =>
+          setFilters({
+            assetType: "",
+            assetName: "",
+            purchaseDateBefore: "",
+            purchaseDateAfter: "",
+          })
+          }
+        >
+          Reset Filters
+        </Button>
+        </Box>
       </CardContent>
-    </Card>
+      </Card>
+
+      {filteredAssets.length > 0 &&
+      Object.values(filters).some((filter) => filter) && (
+        <Card>
+        <CardContent>
+          <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+            <TableRow>
+              <TableCell>Select</TableCell>
+              <TableCell>Asset Name</TableCell>
+              <TableCell>Asset Type</TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Purchase Date</TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            {filteredAssets.map((asset) => (
+              <TableRow key={asset.assetNumber}>
+              <TableCell>
+                <input
+                type="checkbox"
+                onChange={(event) => {
+                  console.log(
+                  `Asset ${asset.assetNumber} selected:`,
+                  event.target.checked
+                  );
+                }}
+                />
+              </TableCell>
+              <TableCell>{asset.assetName}</TableCell>
+              <TableCell>{asset.assetType}</TableCell>
+              <TableCell>{asset.location}</TableCell>
+              <TableCell>{asset.purchaseDate}</TableCell>
+              </TableRow>
+            ))}
+            </TableBody>
+          </Table>
+          </TableContainer>
+        </CardContent>
+        </Card>
+      )}
+    </Box>
   );
 };
 
