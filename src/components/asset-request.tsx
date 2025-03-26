@@ -31,6 +31,7 @@ interface Asset {
   lastEvaluated: Date;
   location: string;
   availableToTransfer: boolean;
+  selected?: boolean; // Optional property to track selection
 }
 
 const AssetTransfer: React.FC = () => {
@@ -42,6 +43,8 @@ const AssetTransfer: React.FC = () => {
     purchaseDateBefore: "",
     purchaseDateAfter: "",
   });
+
+  const [bucketedAssets, setBucketedAssets] = useState<Asset[]>([]);
 
   useEffect(() => {
     fetch("/data/assets.json")
@@ -61,7 +64,7 @@ const AssetTransfer: React.FC = () => {
     }
     if (filters.assetName) {
       filtered = filtered.filter((asset) =>
-        asset.assetName.includes(filters.assetName)
+      asset.assetName.toLowerCase().includes(filters.assetName.toLowerCase())
       );
     }
     if (filters.purchaseDateBefore) {
@@ -88,6 +91,7 @@ const AssetTransfer: React.FC = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      {/* Existing Filter and Asset Selection Section */}
       <Card>
       <CardContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -188,6 +192,7 @@ const AssetTransfer: React.FC = () => {
       </CardContent>
       </Card>
 
+      {/* Filtered Assets Table */}
       {filteredAssets.length > 0 &&
       Object.values(filters).some((filter) => filter) && (
         <Card>
@@ -210,9 +215,13 @@ const AssetTransfer: React.FC = () => {
                 <input
                 type="checkbox"
                 onChange={(event) => {
-                  console.log(
-                  `Asset ${asset.assetNumber} selected:`,
-                  event.target.checked
+                  const isChecked = event.target.checked;
+                  setFilteredAssets((prev) =>
+                  prev.map((a) =>
+                    a.assetNumber === asset.assetNumber
+                    ? { ...a, selected: isChecked }
+                    : a
+                  )
                   );
                 }}
                 />
@@ -226,8 +235,57 @@ const AssetTransfer: React.FC = () => {
             </TableBody>
           </Table>
           </TableContainer>
-        </CardContent>
+          {filteredAssets.some((asset) => asset.selected) && (
+          <Box sx={{ marginTop: 2, textAlign: "right" }}>
+            <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+                    const selectedAssets = filteredAssets.filter(
+                      (asset) => asset.selected
+                    );
+                    setBucketedAssets((prev) => [...prev, ...selectedAssets]);
+                    setFilteredAssets((prev) =>
+                      prev.map((asset) => ({ ...asset, selected: false }))
+                    );
+                  }}
+                >
+                  Add
+                </Button>
+              </Box>
+            )}
+          </CardContent>
         </Card>
+      )}
+
+      {/* Added Assets Table */}
+      {bucketedAssets.length > 0 && (
+      <Card>
+        <CardContent>
+        <TableContainer component={Paper}>
+          <Table>
+          <TableHead>
+            <TableRow>
+            <TableCell>Asset Name</TableCell>
+            <TableCell>Asset Type</TableCell>
+            <TableCell>Location</TableCell>
+            <TableCell>Purchase Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {bucketedAssets.map((asset) => (
+            <TableRow key={asset.assetNumber}>
+              <TableCell>{asset.assetName}</TableCell>
+              <TableCell>{asset.assetType}</TableCell>
+              <TableCell>{asset.location}</TableCell>
+              <TableCell>{asset.purchaseDate}</TableCell>
+            </TableRow>
+            ))}
+          </TableBody>
+          </Table>
+        </TableContainer>
+        </CardContent>
+      </Card>
       )}
     </Box>
   );
