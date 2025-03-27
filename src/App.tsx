@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/sidebar";
 import Dashboard from "./components/dashboard";
 import Transfer from "./components/asset-request";
+import Approve from "./components/approve-transfer";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/transfer/request" element={<Transfer />} />
+            <Route path="/transfer/approve" element={<Approve />} />
           </Routes>
         </div>
       </div>

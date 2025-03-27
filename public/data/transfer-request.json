@@ -1,1 +1,124 @@
-[]
+[
+  {
+    "requestId": "97390",
+    "requestingLocation": "Pune",
+    "requestingDepartment": "HR",
+    "transferStatus": "pending",
+    "assets": [
+      {
+        "assetType": "Scanner",
+        "assetName": "Canon CanoScan",
+        "assetNumber": 750202,
+        "purchaseDate": "2021-05-02",
+        "purchasePrice": 70788,
+        "initialDepartment": "Operations",
+        "currentDepartment": "",
+        "currentValuation": 21102,
+        "lastEvaluated": "2022-05-21",
+        "location": "Bangalore",
+        "availableToTransfer": false,
+        "selected": true
+      },
+      {
+        "assetType": "Scanner",
+        "assetName": "Canon CanoScan",
+        "assetNumber": 764507,
+        "purchaseDate": "2022-11-25",
+        "purchasePrice": 52540,
+        "initialDepartment": "Finance",
+        "currentDepartment": "",
+        "currentValuation": 11931,
+        "lastEvaluated": "2018-08-08",
+        "location": "Pune",
+        "availableToTransfer": false,
+        "selected": true
+      }
+    ]
+  },
+  {
+    "requestId": "55323",
+    "requestingLocation": "Bangalore",
+    "requestingDepartment": "Operations",
+    "transferStatus": "pending",
+    "assets": [
+      {
+        "assetType": "Monitor",
+        "assetName": "LG 4K",
+        "assetNumber": 257521,
+        "purchaseDate": "2018-09-16",
+        "purchasePrice": 117137,
+        "initialDepartment": "Operations",
+        "currentDepartment": "",
+        "currentValuation": 84224,
+        "lastEvaluated": "2021-02-20",
+        "location": "Pune",
+        "availableToTransfer": false,
+        "selected": true
+      },
+      {
+        "assetType": "Projector",
+        "assetName": "LG CineBeam",
+        "assetNumber": 840739,
+        "purchaseDate": "2023-12-01",
+        "purchasePrice": 101464,
+        "initialDepartment": "Marketing",
+        "currentDepartment": "",
+        "currentValuation": 88184,
+        "lastEvaluated": "2022-04-20",
+        "location": "Pune",
+        "availableToTransfer": false,
+        "selected": true
+      }
+    ]
+  },
+  {
+    "requestId": "59743",
+    "requestingLocation": "Bangalore",
+    "requestingDepartment": "IT",
+    "transferStatus": "pending",
+    "assets": [
+      {
+        "assetType": "Cable",
+        "assetName": "Power Cable",
+        "assetNumber": 550457,
+        "purchaseDate": "2020-06-08",
+        "purchasePrice": 147815,
+        "initialDepartment": "Finance",
+        "currentDepartment": "",
+        "currentValuation": 128880,
+        "lastEvaluated": "2020-06-06",
+        "location": "Pune",
+        "availableToTransfer": false,
+        "selected": true
+      },
+      {
+        "assetType": "Cable",
+        "assetName": "USB-C Cable",
+        "assetNumber": 725859,
+        "purchaseDate": "2018-08-15",
+        "purchasePrice": 30951,
+        "initialDepartment": "Travel",
+        "currentDepartment": "",
+        "currentValuation": 23268,
+        "lastEvaluated": "2021-03-11",
+        "location": "Bangalore",
+        "availableToTransfer": false,
+        "selected": true
+      },
+      {
+        "assetType": "Cable",
+        "assetName": "HDMI Cable",
+        "assetNumber": 423508,
+        "purchaseDate": "2018-08-02",
+        "purchasePrice": 52004,
+        "initialDepartment": "Operations",
+        "currentDepartment": "",
+        "currentValuation": 24484,
+        "lastEvaluated": "2022-08-18",
+        "location": "Pune",
+        "availableToTransfer": false,
+        "selected": true
+      }
+    ]
+  }
+]

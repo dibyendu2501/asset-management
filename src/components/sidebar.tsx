@@ -12,15 +12,6 @@ import { useNavigate } from "react-router-dom";
 
 // Define feature menu items
 const features = [
-  { name: "Dashboard", path: "/dashboard", subFeatures: [] },
-  {
-    name: "Asset Evaluation",
-    path: "",
-    subFeatures: [
-      { name: "Search", path: "/assets/search" },
-      { name: "Depreciation Calculation", path: "/assets/depreciation" },
-    ],
-  },
   {
     name: "Asset Transfer",
     path: "",
